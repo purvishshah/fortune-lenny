@@ -2,9 +2,5 @@
 __pycache__/
 *.pyc
 
-# Generated output (can be recreated)
-output/
-
-# OS files
+# OS noise
 .DS_Store
-
