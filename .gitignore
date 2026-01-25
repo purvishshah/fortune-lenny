@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+
+# Generated output (can be recreated)
+output/
+
+# OS files
+.DS_Store
+
