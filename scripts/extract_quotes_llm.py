@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from anthropic import Anthropic
 from tqdm import tqdm
 
-START = 1112
-END = 1500
+START = 6075
+END = 7500
 
 # --------------------------------------------------
 # Helpers
