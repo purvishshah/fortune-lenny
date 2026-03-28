@@ -1,0 +1,106 @@
+/* ===== Base Layout ===== */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #e6ddd3;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* ===== Cookie Icon ===== */
+
+.cookie-icon {
+  position: absolute;
+  top: clamp(16px, 3vw, 40px);
+  left: clamp(16px, 3vw, 40px);
+  width: clamp(40px, 6vw, 70px);
+}
+
+/* ===== Quote Card ===== */
+
+.card {
+  background: #eee;
+  width: 100%;
+  max-width: 900px;
+  padding: clamp(28px, 4vw, 60px);
+  border-radius: 8px;
+  margin-top: clamp(80px, 12vh, 160px);
+  box-sizing: border-box;
+}
+
+/* ===== Quote Text ===== */
+
+.card h1 {
+  font-size: clamp(24px, 3vw, 48px);
+  line-height: 1.35;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.speaker {
+  font-size: clamp(16px, 1.3vw, 22px);
+  color: #333;
+}
+
+/* ===== Links ===== */
+
+.youtube {
+  margin-top: clamp(20px, 3vh, 40px);
+  font-size: clamp(14px, 1.2vw, 18px);
+  color: #333;
+  text-decoration: none;
+}
+
+.youtube:hover {
+  text-decoration: underline;
+}
+
+/* ===== Button ===== */
+
+.next-btn {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.next-btn:hover {
+  text-decoration: underline;
+}
+
+/* ===== Footer ===== */
+
+.footer {
+  margin-top: auto;
+  padding-top: 60px;
+}
+
+.footer h3 {
+  font-size: clamp(18px, 1.5vw, 24px);
+  margin-bottom: 8px;
+  color: #5a4634;
+}
+
+.footer p {
+  font-size: clamp(12px, 1vw, 16px);
+  color: #444;
+  max-width: 600px;
+  margin: auto;
+  line-height: 1.5;
+}
+
+/* ===== Small Screens ===== */
+
+@media (max-width: 600px) {
+  .cookie-icon {
+    display: none;
+  }
+}
