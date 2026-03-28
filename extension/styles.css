@@ -1,16 +1,105 @@
+/* ===== Animations ===== */
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes orb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(60px, -40px) scale(1.15); }
+  66%       { transform: translate(-40px, 30px) scale(0.9); }
+}
+
+@keyframes orb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-50px, 50px) scale(0.85); }
+  66%       { transform: translate(40px, -30px) scale(1.1); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wordReveal {
+  0%   { opacity: 0; filter: blur(8px); transform: translateY(10px) scale(0.95); }
+  60%  { filter: blur(0px); }
+  100% { opacity: 1; filter: blur(0px); transform: translateY(0) scale(1); }
+}
+
+@keyframes cookieDrop {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes crumbSettle {
+  0%   { opacity: 0; transform: var(--r) translateY(-8px); }
+  100% { opacity: var(--op); transform: var(--r) translateY(0); }
+}
+
 /* ===== Base Layout ===== */
+
+html {
+  background: #f5c4a3;
+}
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background: #e6ddd3;
+  height: 100vh;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 40px 20px;
+  padding: clamp(60px, 8vh, 80px) clamp(16px, 4vw, 40px) clamp(16px, 3vh, 32px);
+  gap: clamp(12px, 2vh, 24px);
   box-sizing: border-box;
+  position: relative;
+
+  background: linear-gradient(
+    135deg,
+    #f9d4a8,
+    #f5c4a3,
+    #f0b89a,
+    #f7cdb0,
+    #fde2c4,
+    #f5c4a3
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 14s ease infinite;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, #ffb347, #ff8c42);
+  top: -80px;
+  right: -60px;
+  animation: orb1 18s ease-in-out infinite;
+}
+
+body::after {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #ffd580, #ffaa60);
+  bottom: -60px;
+  left: -80px;
+  animation: orb2 22s ease-in-out infinite;
 }
 
 /* ===== Cookie Icon ===== */
@@ -20,45 +109,125 @@ body {
   top: clamp(16px, 3vw, 40px);
   left: clamp(16px, 3vw, 40px);
   width: clamp(40px, 6vw, 70px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+}
+
+/* ===== Card Wrapper ===== */
+
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  padding-bottom: clamp(70px, 10vw, 95px);
+  z-index: 1;
+  animation: cardIn 0.6s ease both;
 }
 
 /* ===== Quote Card ===== */
 
 .card {
-  background: #eee;
   width: 100%;
-  max-width: 900px;
-  padding: clamp(28px, 4vw, 60px);
-  border-radius: 8px;
-  margin-top: clamp(80px, 12vh, 160px);
+  padding: clamp(20px, 3vw, 50px);
+  border-radius: 24px;
   box-sizing: border-box;
+  position: relative;
+
+  /* paper texture */
+  background-color: #fdf8ed;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 26px,
+      rgba(170, 135, 75, 0.07) 27px,
+      rgba(170, 135, 75, 0.07) 28px
+    );
+
+  border: 1px solid rgba(200, 165, 95, 0.3);
+  box-shadow:
+    inset 0 0 30px rgba(150, 110, 40, 0.06),
+    0 2px 0 rgba(180, 140, 55, 0.18),
+    0 10px 40px rgba(160, 90, 30, 0.14);
 }
 
 /* ===== Quote Text ===== */
 
 .card h1 {
-  font-size: clamp(24px, 3vw, 48px);
-  line-height: 1.35;
+  font-size: clamp(19px, 2.4vw, 38px);
+  line-height: 1.6;
   margin-bottom: 20px;
   font-weight: 600;
+  text-align: center;
+  color: #2e1f0e;
+}
+
+.word {
+  display: inline-block;
+  opacity: 0;
+  animation: wordReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .speaker {
   font-size: clamp(16px, 1.3vw, 22px);
-  color: #333;
+  color: #5a3e20;
+  text-align: center;
+  opacity: 0;
 }
+
+.speaker.revealed {
+  animation: wordReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ===== Fortune Cookie SVG ===== */
+
+.fortune-cookie-svg {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(150px, 22vw, 210px);
+  overflow: visible;
+  animation: cookieDrop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+/* ===== Cookie Crumbles ===== */
+
+.crumb {
+  position: absolute;
+  pointer-events: none;
+  background: #c47818;
+}
+
+/* Crumb shapes */
+.s1 { clip-path: polygon(15% 0%, 82% 6%, 100% 58%, 78% 100%, 8% 92%, 0% 38%); }
+.s2 { clip-path: polygon(0% 22%, 58% 0%, 100% 32%, 90% 100%, 18% 88%); }
+.s3 { clip-path: polygon(28% 0%, 100% 12%, 88% 82%, 48% 100%, 0% 68%, 10% 20%); }
+
+/* Crumb positions — scattered around the cookie */
+.c1  { --r: rotate(22deg);  --op: 0.7; width: 13px; height: 9px;  bottom: 58px; left:  calc(50% - 130px); transform: var(--r); animation: crumbSettle 0.5s ease 0.9s both; }
+.c2  { --r: rotate(-14deg); --op: 0.5; width: 8px;  height: 6px;  bottom: 48px; left:  calc(50% - 110px); transform: var(--r); animation: crumbSettle 0.5s ease 1.0s both; }
+.c3  { --r: rotate(38deg);  --op: 0.6; width: 10px; height: 8px;  bottom: 64px; left:  calc(50% - 90px);  transform: var(--r); animation: crumbSettle 0.5s ease 0.95s both; }
+.c4  { --r: rotate(-8deg);  --op: 0.55;width: 6px;  height: 5px;  bottom: 44px; left:  calc(50% - 75px);  transform: var(--r); animation: crumbSettle 0.5s ease 1.05s both; }
+.c5  { --r: rotate(52deg);  --op: 0.65;width: 9px;  height: 7px;  bottom: 54px; right: calc(50% - 80px);  transform: var(--r); animation: crumbSettle 0.5s ease 1.0s both; }
+.c6  { --r: rotate(-30deg); --op: 0.6; width: 12px; height: 8px;  bottom: 62px; right: calc(50% - 105px); transform: var(--r); animation: crumbSettle 0.5s ease 0.92s both; }
+.c7  { --r: rotate(16deg);  --op: 0.5; width: 7px;  height: 5px;  bottom: 46px; right: calc(50% - 125px); transform: var(--r); animation: crumbSettle 0.5s ease 1.08s both; }
+.c8  { --r: rotate(-42deg); --op: 0.7; width: 11px; height: 8px;  bottom: 70px; right: calc(50% - 150px); transform: var(--r); animation: crumbSettle 0.5s ease 0.88s both; }
+.c9  { --r: rotate(28deg);  --op: 0.45;width: 6px;  height: 4px;  bottom: 42px; left:  calc(50% - 55px);  transform: var(--r); animation: crumbSettle 0.5s ease 1.12s both; }
+.c10 { --r: rotate(-20deg); --op: 0.5; width: 8px;  height: 6px;  bottom: 68px; left:  calc(50% + 55px);  transform: var(--r); animation: crumbSettle 0.5s ease 1.02s both; }
 
 /* ===== Links ===== */
 
-.youtube {
-  margin-top: clamp(20px, 3vh, 40px);
-  font-size: clamp(14px, 1.2vw, 18px);
-  color: #333;
-  text-decoration: none;
+.footer-link {
+  color: #5a4634;
+  text-decoration: underline;
 }
 
-.youtube:hover {
-  text-decoration: underline;
+.footer-link:hover {
+  color: #3a2a1a;
 }
 
 /* ===== Button ===== */
@@ -80,17 +249,18 @@ body {
 
 .footer {
   margin-top: auto;
-  padding-top: 60px;
+  position: relative;
+  z-index: 1;
 }
 
 .footer h3 {
-  font-size: clamp(18px, 1.5vw, 24px);
-  margin-bottom: 8px;
+  font-size: clamp(13.5px, 1.125vw, 18px);
+  margin-bottom: 4px;
   color: #5a4634;
 }
 
 .footer p {
-  font-size: clamp(12px, 1vw, 16px);
+  font-size: clamp(9px, 0.75vw, 12px);
   color: #444;
   max-width: 600px;
   margin: auto;
